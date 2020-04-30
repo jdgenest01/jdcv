@@ -19283,12 +19283,6 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-function allo() {
-  alert("alo");
-}
-
-document.querySelector(".totfffo");
-
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

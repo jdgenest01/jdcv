@@ -24,7 +24,7 @@ class DetailsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

@@ -44,7 +44,7 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function show(Groups $groups)
+    public function show($id)
     {
         //
     }
@@ -55,7 +55,7 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function edit(Groups $groups)
+    public function edit($id)
     {
         //
     }
@@ -67,7 +67,7 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Groups $groups)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,7 +78,7 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Groups $groups)
+    public function destroy($id)
     {
         //
     }

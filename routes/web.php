@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('admin');
+
+foreach(glob(base_path() . "/routes/admin/*.php") as $file){
+    include_once $file;
+}

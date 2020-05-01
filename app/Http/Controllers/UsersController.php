@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Users;
+use App\Users as Users;
 use Illuminate\Http\Request;
+use LVR\Phone\Phone;
+use LVR\Phone\E123;
+use LVR\Phone\E164;
+use LVR\Phone\NANP;
+use LVR\Phone\Digits;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -14,50 +21,29 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $user =  auth()->user();
+
+        return view( "admin.user", [
+            "user" => $user
+        ] );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function rules ( $user ) {
+        return [
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            'name' => "required|max:255",
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($user->id, 'id')
+            ],
+            'password' => "required|max:255",
+            'adress' => "required|max:255",
+            'phone' => "required|max:20",
+            'presentation' => "required|max:255",
+            'jobTitle' => "required",
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Users  $users
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Users $users)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Users  $users
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Users $users)
-    {
-        //
+        ];
     }
 
     /**
@@ -67,19 +53,28 @@ class UsersController extends Controller
      * @param  \App\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Users $users)
+    public function update(Request $request, $id)
     {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Users  $users
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Users $users)
-    {
-        //
+        $user = Users::where( 'id', $id )->first();
+
+        $validator = Validator::make($request->all(), $this->rules($user));
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_user')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
+        $user->email = $request->input("email");
+        $user->password = $request->input("email");
+        $user->jobTitle = $request->input("jobTitle");
+        $user->phone = $request->input("phone");
+        $user->adress = $request->input("adress");
+        $user->presentation = $request->input("presentation");
+        $user->save();
+
+        return redirect()->route('admin_user');
     }
 }

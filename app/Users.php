@@ -36,4 +36,9 @@ class Users extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function groups()
+    {
+        return $this->hasMany('App\Groups');
+    }
 }

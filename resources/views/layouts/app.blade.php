@@ -7,10 +7,13 @@
 
         <main class="h-100">
             <div class="row h-100">
+                @if ( Auth::check() )
                 <div class="col-2">
                     @include('layouts.sidebar')
                 </div>
-                <div class="col-10">
+
+                @endif
+                <div class="{{ ( Auth::check() )?"col-10":"col-12" }}">
                     <div class="container py-4">
                         @yield('content')
                     </div>

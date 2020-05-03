@@ -10,10 +10,6 @@
             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{ old('email',$user->email) }}">
         </div>
         <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" value="{{ old('email',$user->email) }}">
-        </div>
-        <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Name" value="{{ old('name',$user->name) }}">
         </div>

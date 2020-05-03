@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Groups;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class GroupsController extends Controller
 {
@@ -14,17 +16,19 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        //
+        $groups = Groups::all();
+
+        return view("admin.groups.main",[
+            "groups" => $groups,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function rules (  ) {
+        return [
+
+            'title' => "required|max:255",
+
+        ];
     }
 
     /**
@@ -35,18 +39,21 @@ class GroupsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Groups  $groups
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_groups')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $groups = new Groups;
+        $groups->title = $request->input("title");
+        $groups->user_id = Auth::user()->id;
+        $groups->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 
     /**
@@ -55,9 +62,14 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $groups = Groups::where( 'id', $id )->first();
+
+        return view("admin.groups.edit",[
+            "groups" => $groups,
+        ]);
+
     }
 
     /**
@@ -69,7 +81,20 @@ class GroupsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $groups = Groups::where( 'id', $id )->first();
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_groups')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $groups->title = $request->input("title");
+        $groups->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 
     /**
@@ -78,8 +103,13 @@ class GroupsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+
+        $groups = Groups::where( 'id', $id )->first();
+        $groups->delete();
+
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 }

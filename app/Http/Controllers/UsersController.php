@@ -19,12 +19,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request )
     {
         $user =  auth()->user();
 
         return view( "admin.user", [
-            "user" => $user
+            "user" => $user,
+            "success" => false,
         ] );
     }
 
@@ -37,7 +38,6 @@ class UsersController extends Controller
                 'email',
                 Rule::unique('users')->ignore($user->id, 'id')
             ],
-            'password' => "required|max:255",
             'adress' => "required|max:255",
             'phone' => "required|max:20",
             'presentation' => "required|max:255",
@@ -68,13 +68,12 @@ class UsersController extends Controller
 
 
         $user->email = $request->input("email");
-        $user->password = $request->input("email");
         $user->jobTitle = $request->input("jobTitle");
         $user->phone = $request->input("phone");
         $user->adress = $request->input("adress");
         $user->presentation = $request->input("presentation");
         $user->save();
-
+        $request->session()->flash('success', 'Task was successful!');
         return redirect()->route('admin_user');
     }
 }

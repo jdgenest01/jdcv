@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Tags as Tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TagsController extends Controller
 {
@@ -13,25 +15,20 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tags::all();
+
+        return view("admin.tags.tags",[
+            "tags" => $tags,
+            "url" => route("admin_tags_insert"),
+        ]);
     }
 
-    public function rules ( $user ) {
+    public function rules (  ) {
         return [
 
-            'name' => "required|max:255",
+            'title' => "required|max:255",
 
         ];
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -42,18 +39,20 @@ class TagsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Groups  $groups
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_tags')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $tags = new Tags;
+        $tags->title = $request->input("title");
+        $tags->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_tags');
     }
 
     /**
@@ -62,9 +61,15 @@ class TagsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $tags = Tags::where( 'id', $id )->first();
+
+        return view("admin.tags.tagsedit",[
+            "tags" => $tags,
+            "url" => route( "admin_tags_update" , $tags ),
+        ]);
+
     }
 
     /**
@@ -76,7 +81,20 @@ class TagsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $tags = Tags::where( 'id', $id )->first();
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_tags')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $tags->title = $request->input("title");
+        $tags->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_tags');
     }
 
     /**
@@ -85,8 +103,13 @@ class TagsController extends Controller
      * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+
+        $tags = Tags::where( 'id', $id )->first();
+        $tags->delete();
+
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_tags');
     }
 }

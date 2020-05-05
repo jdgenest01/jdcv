@@ -5,3 +5,24 @@ body, html, .container-fluid { /// take all available height
 #app {
     height: 100%;
 }
+
+fieldset {
+    min-width: auto;
+    padding: 0.5em;
+    border:solid;
+}
+
+@for $i from 1 through 100 {
+    .w-#{$i}{
+        width: $i*1%;
+    }
+}
+
+.mt-6 {
+    margin-top:3.5em;
+}
+
+.left-box-shadow-sm {
+    box-shadow: .125rem 0 .25rem 0 rgba(0,0,0,.075)!important;
+
+}

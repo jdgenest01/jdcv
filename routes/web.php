@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('admin');
-
-foreach(glob(base_path() . "/routes/admin/*.php") as $file){
-    include_once $file;
-}
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/', 'HomeController@index');
+    foreach(glob(base_path() . "/routes/admin/*.php") as $file){
+        include_once $file;
+    }
+});

@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <form method="post" action="{{ route("admin_groups_insert") }}">
+    <form method="post" action="{{ route("admin.groups.store") }}">
         @csrf
         <div class="form-group">
             <label for="title">Title</label>
@@ -24,7 +24,7 @@
             <tr>
                 <th scope="row">{{ $group->id }}</th>
                 <td>{{ $group->title }}</td>
-                <td><a href="{{ route("admin_groups_edit",$group) }}">Update</a>&nbsp;<a href="{{ route("admin_groups_delete",$group) }}">Delete</a></td>
+                <td><a href="{{ route("admin.groups.edit",$group) }}">Update</a>&nbsp;<a href="{{ route("admin.groups.delete",$group) }}">Delete</a></td>
             </tr>
           @endforeach
         </tbody>

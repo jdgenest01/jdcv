@@ -5,7 +5,7 @@
     <div id="app">
         @include('layouts.navbar')
 
-        <main class="h-100">
+        <main class="h-100 mt-6">
             <div class="row h-100">
                 @if ( Auth::check() )
                 <div class="col-2">

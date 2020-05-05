@@ -16,14 +16,10 @@ class DetailsController extends Controller
      */
     public function index()
     {
-        $groups     = Groups::all();
         $details    = Details::all();
-        $tags       = Tags::all();
 
-        return view("admin.details.main",[
-            "groups" => $groups,
+        return view("admin.details.list",[
             "details" => $details,
-            "tags" => $tags,
         ]);
     }
 
@@ -61,6 +57,17 @@ class DetailsController extends Controller
         return $rules;
     }
 
+    public function create ( Request $request ) {
+
+        $groups     = Groups::all();
+        $tags       = Tags::all();
+
+        return view("admin.details.create",[
+            "groups" => $groups,
+            "tags" => $tags,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -73,7 +80,7 @@ class DetailsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_groups')
+            return redirect()->route('admin.details.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -83,7 +90,7 @@ class DetailsController extends Controller
         $groups->user_id = Auth::user()->id;
         $groups->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.details.index');
     }
 
     /**
@@ -116,7 +123,7 @@ class DetailsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_groups')
+            return redirect()->route('admin.details.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -124,7 +131,7 @@ class DetailsController extends Controller
         $groups->title = $request->input("title");
         $groups->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.details.index');
     }
 
     /**
@@ -140,6 +147,6 @@ class DetailsController extends Controller
         $groups->delete();
 
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.details.index');
     }
 }

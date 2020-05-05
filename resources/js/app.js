@@ -63,32 +63,51 @@ document.addEventListener( "DOMContentLoaded", function() {
 
             if ( deleteRow && deleteRow.className.indexOf('deleteRow') != -1 ){
 
-                let row = deleteRow.parentNode.parentNode;
-                let idHidden = row.querySelector(".idHidden");
+                if ( modalConfirm() ) {
+                    let row = deleteRow.parentNode.parentNode;
+                    let idHidden = row.querySelector(".idHidden");
 
-                if ( idHidden != null ) {
+                    if ( idHidden != null ) {
 
-                    let id = idHidden.value;
+                        let id = idHidden.value;
 
-                    if ( id != null ) {
+                        if ( id != null ) {
 
-                        if ( deletedRows.value.length > 0 ) {
+                            if ( deletedRows.value.length > 0 ) {
 
-                            deletedRows.value = deletedRows.value + ',' + id;
+                                deletedRows.value = deletedRows.value + ',' + id;
 
-                        } else {
+                            } else {
 
-                            deletedRows.value = id;
+                                deletedRows.value = id;
+
+                            }
 
                         }
 
                     }
 
+                    row.parentNode.removeChild(row);
                 }
-
-                row.parentNode.removeChild(row);
             }
         });
 
     }
 });
+
+var modalConfirm = function(){
+    var response = false;
+    $("#modal-confirm").modal('show');
+    $("#modal-btn-yes").on("click", function(){
+      $("#modal-confirm").modal('hide');
+      response =  true;
+    });
+
+    $("#modal-btn-no").on("click", function(){
+      $("#modal-confirm").modal('hide');
+      response = false;
+    });
+    alert(response);
+    return response;
+};
+

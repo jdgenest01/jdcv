@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <form method="post" action="{{ route("admin_user_update",$user) }}">
+    <form method="post" action="{{ route("admin.user.update",$user) }}">
         @csrf
         @include("layouts.messagebox")
         <div class="form-group">

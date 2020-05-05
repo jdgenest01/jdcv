@@ -17,9 +17,8 @@ class TagsController extends Controller
     {
         $tags = Tags::all();
 
-        return view("admin.tags.tags",[
+        return view("admin.tags.main",[
             "tags" => $tags,
-            "url" => route("admin_tags_insert"),
         ]);
     }
 
@@ -43,7 +42,7 @@ class TagsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_tags')
+            return redirect()->route('admin.tags.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -52,7 +51,7 @@ class TagsController extends Controller
         $tags->title = $request->input("title");
         $tags->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_tags');
+        return redirect()->route('admin.tags.index');
     }
 
     /**
@@ -65,9 +64,8 @@ class TagsController extends Controller
     {
         $tags = Tags::where( 'id', $id )->first();
 
-        return view("admin.tags.tagsedit",[
+        return view("admin.tags.edit",[
             "tags" => $tags,
-            "url" => route( "admin_tags_update" , $tags ),
         ]);
 
     }
@@ -86,7 +84,7 @@ class TagsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_tags')
+            return redirect()->route('admin.tags.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -94,7 +92,7 @@ class TagsController extends Controller
         $tags->title = $request->input("title");
         $tags->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_tags');
+        return redirect()->route('admin.tags.index');
     }
 
     /**
@@ -110,6 +108,6 @@ class TagsController extends Controller
         $tags->delete();
 
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_tags');
+        return redirect()->route('admin.tags.index');
     }
 }

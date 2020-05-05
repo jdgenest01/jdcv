@@ -2,7 +2,7 @@
 
 @section("content")
 
-<form method="post" action="{{ route("admin_groups_update",$groups) }}">
+<form method="post" action="{{ route("admin.groups.update",$groups) }}">
     @csrf
     <div class="form-group">
         <label for="title">Title</label>

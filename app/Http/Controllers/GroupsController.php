@@ -43,7 +43,7 @@ class GroupsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_groups')
+            return redirect()->route('admin.groups.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -53,7 +53,7 @@ class GroupsController extends Controller
         $groups->user_id = Auth::user()->id;
         $groups->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.groups.index');
     }
 
     /**
@@ -86,7 +86,7 @@ class GroupsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route('admin_groups')
+            return redirect()->route('admin.groups.index')
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -94,7 +94,7 @@ class GroupsController extends Controller
         $groups->title = $request->input("title");
         $groups->save();
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.groups.index');
     }
 
     /**
@@ -110,6 +110,6 @@ class GroupsController extends Controller
         $groups->delete();
 
         $request->session()->flash('success', 'Task was successful!');
-        return redirect()->route('admin_groups');
+        return redirect()->route('admin.groups.index');
     }
 }

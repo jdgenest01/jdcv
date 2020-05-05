@@ -61,7 +61,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), $this->rules($user));
 
         if ($validator->fails()) {
-            return redirect()->route('admin_user')
+            return redirect()->route('admin.user.index')
                         ->withErrors($validator)
                         ->withInput();
         }

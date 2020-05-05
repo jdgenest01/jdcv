@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Details;
+use App\Tags;
+use App\Groups;
 use Illuminate\Http\Request;
 
 class DetailsController extends Controller
@@ -14,17 +16,49 @@ class DetailsController extends Controller
      */
     public function index()
     {
-        //
+        $groups     = Groups::all();
+        $details    = Details::all();
+        $tags       = Tags::all();
+
+        return view("admin.details.main",[
+            "groups" => $groups,
+            "details" => $details,
+            "tags" => $tags,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function rules ( $typedate = false ) {
 
+        $rules = [
+
+            'title' => "required|max:255",
+            'typeTime' => [
+                'required',
+                Rule::in('date','during'),
+            ],
+            'info_title.*' => "required|max:255",
+            'info_date.*' => "max:255|date",
+            'info_link.*' => "max:255|url",
+        ];
+
+        if ( $rules ) {
+
+            if ( $rules == 'date' ) {
+
+                $rules['dateBeginning'] = "required|date";
+                $rules['dateEnding'] = "required|date|after_or_equal:dateBeginning";
+
+            }
+
+            if ( $rules == 'during' ) {
+
+                $rules['timePassed'] = "number";
+
+            }
+
+        }
+
+        return $rules;
     }
 
     /**
@@ -35,51 +69,77 @@ class DetailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Details  $details
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Details $details)
-    {
-        //
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_groups')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $groups = new Groups;
+        $groups->title = $request->input("title");
+        $groups->user_id = Auth::user()->id;
+        $groups->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Details  $details
+     * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function edit(Details $details)
+    public function edit(Request $request, $id)
     {
-        //
+        $groups = Groups::where( 'id', $id )->first();
+
+        return view("admin.groups.edit",[
+            "groups" => $groups,
+        ]);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Details  $details
+     * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Details $details)
+    public function update(Request $request, $id)
     {
-        //
+
+        $groups = Groups::where( 'id', $id )->first();
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return redirect()->route('admin_groups')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $groups->title = $request->input("title");
+        $groups->save();
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Details  $details
+     * @param  \App\Groups  $groups
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Details $details)
+    public function destroy(Request $request, $id)
     {
-        //
+
+        $groups = Groups::where( 'id', $id )->first();
+        $groups->delete();
+
+        $request->session()->flash('success', 'Task was successful!');
+        return redirect()->route('admin_groups');
     }
 }

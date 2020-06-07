@@ -14,7 +14,7 @@
 
                 @endif
                 <div class="{{ ( Auth::check() )?"col-10":"col-12" }}">
-                    <div class="container py-4">
+                    <div class="container py-4 pl-0 pr-0">
                         @yield('content')
                     </div>
                 </div>

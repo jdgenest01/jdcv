@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <form method="post" action="{{ route("admin.groups.store") }}">
+    <form method="post" action="{{ route("admin.tags.store") }}">
         @csrf
         @include("layouts.messagebox")
         <div class="form-group">
@@ -21,11 +21,11 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($groups as $group)
+          @foreach($tags as $tag)
             <tr>
-                <th scope="row">{{ $group->id }}</th>
-                <td>{{ $group->title }}</td>
-                <td><a class="btn btn-primary" href="{{ route("admin.groups.edit",$group) }}">Update</a>&nbsp;<button type="button" class="deleteModel btn btn-danger" data-route="{{ route("admin.groups.delete",$group) }}">Delete</button></td>
+                <th scope="row">{{ $tag->id }}</th>
+                <td>{{ $tag->title }}</td>
+                <td><a class="btn btn-primary" href="{{ route("admin.tags.edit",$tag) }}">Update</a>&nbsp;<button type="button" class="deleteModel btn btn-danger" data-route="{{ route("admin.tags.delete",$tag) }}">Delete</button></td>
             </tr>
           @endforeach
         </tbody>

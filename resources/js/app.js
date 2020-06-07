@@ -5,7 +5,25 @@ document.addEventListener( "DOMContentLoaded", function() {
     let timeType = document.querySelector("#date");
     let addRow = document.querySelector("#addRow");
     let deleteRows = document.querySelectorAll(".deleteRow");
+    let deleteModel = $(".deleteModel");
 
+    if ( deleteModel.length > 0 ) {
+
+        deleteModel.click( function(e) {
+            $("#modal-confirm").modal('show');
+            $("#modal-btn-yes").on("click", function(){
+                window.location.href = deleteModel.data("route");
+                $("#modal-confirm").modal('hide');
+
+            });
+            $("#modal-btn-no").on("click", function(){
+                $("#modal-confirm").modal('hide');
+            });
+
+        } );
+
+
+    }
 
     if( timeType != null ) {
 
@@ -20,11 +38,26 @@ document.addEventListener( "DOMContentLoaded", function() {
 
                     timeDiv.classList.remove("d-none");
                     duringDiv.classList.add("d-none");
+                    timeDiv.querySelectorAll("input").forEach(function(e){
+                        e.disabled = false;
+                    });
+
+                    duringDiv.querySelectorAll("select").forEach(function(e){
+                        e.disabled = true;
+                    });
 
                 } else {
 
                     timeDiv.classList.add("d-none");
                     duringDiv.classList.remove("d-none");
+
+                    timeDiv.querySelectorAll("input").forEach(function(e){
+                        e.disabled = true;
+                    });
+
+                    duringDiv.querySelectorAll("select").forEach(function(e){
+                        e.disabled = false;
+                    });
 
                 }
 
@@ -48,6 +81,12 @@ document.addEventListener( "DOMContentLoaded", function() {
                 itm.classList.remove("d-none");
                 interactiveBody.appendChild(itm);
 
+                itm.querySelectorAll(".form-control, idHidden").forEach( function ( elem ) {
+
+                    elem.disabled = false;
+
+                } );
+
             }
         }
 
@@ -63,7 +102,9 @@ document.addEventListener( "DOMContentLoaded", function() {
 
             if ( deleteRow && deleteRow.className.indexOf('deleteRow') != -1 ){
 
-                if ( modalConfirm() ) {
+                $("#modal-confirm").modal('show');
+                $("#modal-btn-yes").on("click", function(){
+                    $("#modal-confirm").modal('hide');
                     let row = deleteRow.parentNode.parentNode;
                     let idHidden = row.querySelector(".idHidden");
 
@@ -88,26 +129,16 @@ document.addEventListener( "DOMContentLoaded", function() {
                     }
 
                     row.parentNode.removeChild(row);
-                }
+                });
+
+                $("#modal-btn-no").on("click", function(){
+                    $("#modal-confirm").modal('hide');
+                });
+
             }
         });
 
     }
 });
 
-var modalConfirm = function(){
-    var response = false;
-    $("#modal-confirm").modal('show');
-    $("#modal-btn-yes").on("click", function(){
-      $("#modal-confirm").modal('hide');
-      response =  true;
-    });
-
-    $("#modal-btn-no").on("click", function(){
-      $("#modal-confirm").modal('hide');
-      response = false;
-    });
-    alert(response);
-    return response;
-};
 

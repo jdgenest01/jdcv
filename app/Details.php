@@ -8,7 +8,7 @@ class Details extends Model
 {
     public function infos()
     {
-        return $this->hasMany('App\Infos');
+        return $this->hasMany('App\Infos', "details_id", "id");
     }
 
     public function group()
@@ -18,6 +18,6 @@ class Details extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tags');
+        return $this->belongsToMany('App\Tags', "tagsdetails");
     }
 }

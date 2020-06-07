@@ -8,11 +8,11 @@ class Tags extends Model
 {
     public function infos()
     {
-        return $this->belongsToMany('App\Infos');
+        return $this->belongsToMany('App\Infos', "tagsinfos");
     }
 
     public function details()
     {
-        return $this->belongsToMany('App\Details');
+        return $this->belongsToMany('App\Details',  "tagsdetails");
     }
 }

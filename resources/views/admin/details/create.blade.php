@@ -90,7 +90,6 @@
                 </table>
             </table>
             <input type="button" class="btn btn-success active" id="addRow" value="Add">
-            <input type="hidden" name="deletedRows" id="deletedRows" value="">
         </fieldset>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

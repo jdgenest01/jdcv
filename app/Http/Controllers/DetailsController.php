@@ -101,6 +101,7 @@ class DetailsController extends Controller
         }
 
         $details->groups_id = $request->input("group");
+        $details->tags()->sync( $request->input("tags") );
         $details->save();
 
         Infos::updateorCreate(
@@ -128,10 +129,20 @@ class DetailsController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $groups = Groups::where( 'id', $id )->first();
+        $groups     = Groups::all();
+        $tags       = Tags::all();
+        $details    = Details::where('id', $id)->first();
+        $infos      = $details->infos()->get();
+        $detailsTags= $details->tags()->get();
 
-        return view("admin.groups.edit",[
+        dd($infos);
+
+        return view("admin.details.edit",[
             "groups" => $groups,
+            "tags" => $tags,
+            "details" => $details,
+            "infos" => $infos,
+            "detailsTags" => $detailsTags,
         ]);
 
     }

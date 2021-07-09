@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            {{ config('app.name', 'Site web personnel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,47 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
+                @auth
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                       Blogue <span class="caret"></span>
+                    </a>
 
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="">
+                            Gestion des articles
+                        </a>
+                        <a class="dropdown-item" href="">
+                            Gestions des tags
+                        </a>
+                        <a class="dropdown-item" href="">
+                            Gestion des commentaires
+                        </a>
+
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                       Curriculum <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route("admin_user")  }}">
+                            Formulaire général
+                        </a>
+                        <a class="dropdown-item" href="{{ route("admin_details") }}">
+                            Formulaire des détails
+                        </a>
+                        <a class="dropdown-item" href="{{ route("admin_groups") }}">
+                            Formulaires des groupes
+                        </a>
+                        <a class="dropdown-item" href="">
+                            Gestion de liens supplémentaires
+                        </a>
+                    </div>
+                </li>
+                @endauth
             </ul>
 
             <!-- Right Side Of Navbar -->

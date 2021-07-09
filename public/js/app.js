@@ -19284,66 +19284,7 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 document.addEventListener("DOMContentLoaded", function () {
-  var timeType = document.querySelector("#date");
-  var addRow = document.querySelector("#addRow");
-  var deleteRows = document.querySelectorAll(".deleteRow");
-
-  if (timeType != null) {
-    document.querySelectorAll(".typeRadio").forEach(function (radio) {
-      radio.onchange = function () {
-        var timeDiv = document.querySelector("#timeDiv");
-        var duringDiv = document.querySelector("#duringDiv");
-
-        if (radio.checked && radio.value == "date") {
-          timeDiv.classList.remove("d-none");
-          duringDiv.classList.add("d-none");
-        } else {
-          timeDiv.classList.add("d-none");
-          duringDiv.classList.remove("d-none");
-        }
-      };
-    });
-  }
-
-  if (addRow != null) {
-    addRow.onclick = function (e) {
-      var hiddenRow = document.querySelector("#interactiveBody #hiddenRow");
-      var interactiveBody = document.querySelector("#interactiveBody");
-
-      if (hiddenRow != null) {
-        var itm = hiddenRow.cloneNode(true);
-        itm.removeAttribute("id");
-        itm.classList.remove("d-none");
-        interactiveBody.appendChild(itm);
-      }
-    };
-  }
-
-  if (deleteRows.length > 0) {
-    var deletedRows = document.querySelector("#deletedRows");
-    document.addEventListener('click', function (e) {
-      var deleteRow = e.target;
-
-      if (deleteRow && deleteRow.className.indexOf('deleteRow') != -1) {
-        var row = deleteRow.parentNode.parentNode;
-        var idHidden = row.querySelector(".idHidden");
-
-        if (idHidden != null) {
-          var id = idHidden.value;
-
-          if (id != null) {
-            if (deletedRows.value.length > 0) {
-              deletedRows.value = deletedRows.value + ',' + id;
-            } else {
-              deletedRows.value = id;
-            }
-          }
-        }
-
-        row.parentNode.removeChild(row);
-      }
-    });
-  }
+  CKEDITOR.replace('.ckeditor');
 });
 
 /***/ }),
@@ -19398,8 +19339,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\jdgen\Documents\Dev\jdcv\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\jdgen\Documents\Dev\jdcv\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\project\jdcv\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\project\jdcv\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

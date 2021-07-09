@@ -17,10 +17,8 @@ class CreateDetailsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->enum('typeTime',['date','during'])->default("during");
             $table->string('dateBeginning')->nullable();
             $table->string('dateEnding')->nullable();
-            $table->string('timePassed')->nullable();
             $table->unsignedBigInteger('groups_id');
             $table->foreign('groups_id')->references('id')->on('groups');
             $table->timestamps();

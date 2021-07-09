@@ -1,8 +1,11 @@
 @if ($errors->any())
-<div class="alert alert-danger" role="alert">
-
-    {!! implode('', $errors->all('<div>:message</div>')) !!}
-</div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
 @endif
 
 @if ( isset($success) )

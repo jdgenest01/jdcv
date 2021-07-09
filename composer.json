@@ -16,6 +16,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "laravelcollective/html": "^6.2",
         "squizlabs/php_codesniffer": "^3.5"
     },
     "require-dev": {

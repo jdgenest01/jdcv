@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Details;
 use App\Tags;
 use App\Groups;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DetailsController extends Controller
+class InfosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $groups     = Groups::all();
         $details    = Details::all();
 
-        return view("admin.details.main",[
-            "detail" => new Details,
-            "groups" => $groups,
+        return view("admin.infos.main",[
+            "infos" => new Infos,
             "details" => $details,
         ]);
     }
@@ -33,12 +27,11 @@ class DetailsController extends Controller
 
             'title' => "required|max:255",
             'description' => "required",
-            'groups_id' => "required",
+            'details_id' => "required",
+            'link' => "required",
+            'date' => "required",
 
         ];
-
-        $rules['dateBeginning'] = "required|date";
-        $rules['dateEnding'] = "required|date|after_or_equal:dateBeginning";
 
         return $rules;
     }
@@ -55,12 +48,12 @@ class DetailsController extends Controller
         $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
-            return redirect()->route("admin_details")
+            return redirect()->route("admin_infos")
                         ->withErrors($validator)
                         ->withInput();
         }
 
-        $details = new Details();
+        $infos = new Infos();
         $details->title = $request->input("title");
         $details->description = $request->input("description");
         $details->dateBeginning = $request->input("dateBeginning");
@@ -138,4 +131,3 @@ class DetailsController extends Controller
         $request->session()->flash('success', 'Task was successful!');
         return redirect()->route("admin_details");
     }
-}

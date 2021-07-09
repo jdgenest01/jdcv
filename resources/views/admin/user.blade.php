@@ -27,8 +27,8 @@
         </div>
         <div class="form-group">
             <label for="presentation">Presentation</label>
-            <textarea class="form-control @error('presentation') is-invalid @enderror" id="presentation" name="presentation">{{ old('presentation',$user->presentation) }}</textarea>
+            <textarea class="form-control ckeditor  @error('presentation') is-invalid @enderror" id="presentation" name="presentation">{{ old('presentation',$user->presentation) }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
     </form>
 @endsection
